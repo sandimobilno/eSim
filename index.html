@@ -103,24 +103,26 @@
                     </div>
                 </div>
 
-                <!-- GUMB IN RAZŠIRLJIVO OKENCE ZA PREVERJANJE ESIM -->
+                <!-- GUMB IN RAZŠIRLJIVO OKENCE ZA PREVERJANJE ESIM (DINAMIČNO GLEDE NA NAPRAVO) -->
                 <div class="mt-4 max-w-xl mx-auto space-y-2">
-                    <button onclick="toggleEsimCheck()" class="w-full py-3 px-4 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/80 shadow-sm transition-all flex items-center justify-between">
+                    <div class="w-full py-3 px-4 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <i data-lucide="smartphone" class="w-4 h-4 text-brand-500"></i>
-                            <span>Niste prepričani, če vaš telefon podpira eSIM? Klikni tukaj</span>
+                            <span>Niste prepričani, če vaš telefon podpira eSIM?</span>
                         </div>
-                        <i id="esimCheckChevron" data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform duration-300"></i>
-                    </button>
+                        <button onclick="toggleEsimCheck()" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all shrink-0">
+                            Klikni tukaj
+                        </button>
+                    </div>
                     
                     <div id="esimCheckPanel" class="hidden p-4 bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-600 dark:text-slate-400 text-left space-y-3 transition-all duration-300">
                         <div class="flex items-start gap-2.5">
                             <i data-lucide="info" class="w-4 h-4 text-brand-500 shrink-0 mt-0.5"></i>
-                            <span>Po kliku na gumb Preveri, se vam bo pojavilo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.</span>
+                            <span id="esimPanelText">Po kliku na gumb Preveri, se vam bo pojavilo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.</span>
                         </div>
-                        <a href="tel:*%2306%23" class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all">
-                            <span>Preveri</span>
-                        </a>
+                        <div id="esimPanelAction">
+                            <!-- Dinamično vstavljeno preko JS glede na napravo -->
+                        </div>
                     </div>
                 </div>
 
@@ -335,7 +337,7 @@
     <!-- NOGA -->
     <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <div class="bg-brand-600 text-white p-1.5 rounded-lg">
                     <i data-lucide="wifi" class="w-5 h-5"></i>
                 </div>
@@ -372,20 +374,33 @@
             setupSearchAndFilters();
             setupDeviceChecker();
             setupFAQ();
+            initEsimCheckDeviceLogic();
         });
+
+        // DINAMIČNA PRILAGODITEV GLEDE NA NAPRAVO (iOS vs Android)
+        function initEsimCheckDeviceLogic() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const isAndroid = /Android/i.test(userAgent);
+            const actionContainer = document.getElementById('esimPanelAction');
+            const textContainer = document.getElementById('esimPanelText');
+
+            if (isAndroid) {
+                textContainer.innerHTML = `V svoj telefon vtipkajte kodo <strong>*#06#</strong> kot bi želeli opraviti običajen klic. Odprlo se vam bo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.`;
+                actionContainer.innerHTML = ``; // Brez gumba za Android, ker gre za ročni vnos
+            } else {
+                textContainer.innerHTML = `Po kliku na gumb Preveri, se vam bo pojavilo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.`;
+                actionContainer.innerHTML = `<a href="tel:*%2306%23" class="inline-flex items-center justify-center py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all w-auto"><span>Preveri</span></a>`;
+            }
+        }
 
         // PREKLOP RAZŠIRLJIVEGA OKENCA ZA ESIM PREVERJANJE
         function toggleEsimCheck() {
             const panel = document.getElementById('esimCheckPanel');
-            const chevron = document.getElementById('esimCheckChevron');
-            
             const isHidden = panel.classList.contains('hidden');
             if (isHidden) {
                 panel.classList.remove('hidden');
-                chevron.style.transform = 'rotate(180deg)';
             } else {
                 panel.classList.add('hidden');
-                chevron.style.transform = 'rotate(0deg)';
             }
         }
 
