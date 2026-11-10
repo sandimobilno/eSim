@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConnectRoam - Hitre eSIM kartice za potovanja po svetu</title>
+    <title>potujpovezan.si - Hitre eSIM kartice za potovanja po svetu</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -48,7 +48,7 @@
                 <div class="bg-brand-600 text-white p-2 rounded-xl shadow-lg shadow-brand-500/30">
                     <i data-lucide="wifi" class="w-6 h-6"></i>
                 </div>
-                <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">ConnectRoam</span>
+                <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">potujpovezan.si</span>
             </div>
 
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600 dark:text-slate-300">
@@ -101,6 +101,14 @@
                             Išči
                         </button>
                     </div>
+                </div>
+
+                <!-- GUMB ZA PREVERJANJE ESIM (*#06#) -->
+                <div class="mt-4 max-w-xl mx-auto">
+                    <a href="tel:*%2306%23" class="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/80 shadow-sm transition-all">
+                        <i data-lucide="smartphone" class="w-4 h-4 text-brand-500"></i>
+                        Niste prepričani, če vaš telefon podpira eSim? Kliknite tukaj
+                    </a>
                 </div>
 
                 <!-- STATISTIKA -->
@@ -318,10 +326,10 @@
                 <div class="bg-brand-600 text-white p-1.5 rounded-lg">
                     <i data-lucide="wifi" class="w-5 h-5"></i>
                 </div>
-                <span class="font-bold text-slate-900 dark:text-white">ConnectRoam</span>
+                <span class="font-bold text-slate-900 dark:text-white">potujpovezan.si</span>
             </div>
             <p class="text-xs text-slate-500 dark:text-slate-400">
-                © 2026 ConnectRoam. Vse pravice pridržane. Izdelano za bliskovito potovalno izkušnjo.
+                © 2026 3A INTERNATIONAL d.o.o. Vse pravice pridržane. Izdelano za bliskovito potovalno izkušnjo.
             </p>
         </div>
     </footer>
@@ -476,7 +484,7 @@
             setTimeout(() => {
                 // GENERATE DYNAMIC QR CODE VIA QUICKCHART API
                 const randomCode = Math.random().toString(36).substring(7).toUpperCase();
-                const qrUrl = `https://quickchart.io/qr?text=LPA:1$rsp.connectroam.com$${randomCode}&size=200`;
+                const qrUrl = `https://quickchart.io/qr?text=LPA:1$rsp.potujpovezan.si$${randomCode}&size=200`;
                 
                 document.getElementById('qrCodeImg').src = qrUrl;
                 document.getElementById('modalStepPayment').classList.add('hidden');
