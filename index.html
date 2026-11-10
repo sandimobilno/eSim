@@ -118,7 +118,7 @@
                     <div id="esimCheckPanel" class="hidden p-4 bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-600 dark:text-slate-400 text-left space-y-3 transition-all duration-300">
                         <div class="flex items-start gap-2.5">
                             <i data-lucide="info" class="w-4 h-4 text-brand-500 shrink-0 mt-0.5"></i>
-                            <span id="esimPanelText">Po kliku na gumb Preveri, se vam bo pojavilo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.</span>
+                            <span id="esimPanelText">Po kliku na gumb <button onclick="triggerIosCheck()" class="inline-flex items-center justify-center px-2 py-0.5 mx-1 rounded text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all align-middle">Preveri</button>, se vam bo pojavilo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.</span>
                         </div>
                         <div id="esimPanelAction">
                             <!-- Dinamično vstavljeno preko JS glede na napravo -->
@@ -388,10 +388,16 @@
                 textContainer.innerHTML = `V svoj telefon vtipkajte MMI kodo <code class="font-mono bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded text-brand-600 dark:text-brand-400 font-bold">*#06#</code> <button onclick="copyMmiCode(this)" class="inline-flex items-center gap-1 ml-1 px-2 py-0.5 text-xs font-semibold rounded bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all align-middle"><i data-lucide="copy" class="w-3 h-3"></i><span>kopiraj kodo</span></button> in pritisnite tipko za klic <i data-lucide="phone" class="w-3.5 h-3.5 inline-block text-emerald-600 dark:text-emerald-400 align-middle"></i>, se vam bo pojavilo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = ``; 
             } else {
-                textContainer.innerHTML = `Po kliku na gumb Preveri, se vam bo pojavilo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.`;
-                actionContainer.innerHTML = `<a href="tel:*%2306%23" class="inline-flex items-center justify-center py-2 px-4 rounded-lg text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all w-auto"><span>Preveri</span></a>`;
+                textContainer.innerHTML = `Po kliku na gumb <button onclick="triggerIosCheck()" class="inline-flex items-center justify-center px-2 py-0.5 mx-1 rounded text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all align-middle">Preveri</button>, se vam bo pojavilo okence s črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong> pomeni, da vaš telefon zagotovo podpira eSIM.`;
+                actionContainer.innerHTML = `<a href="tel:*%2306%23" onclick="toggleEsimCheck()" class="w-full inline-flex items-center justify-center py-2.5 px-4 rounded-lg text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all"><span>Preveri</span></a>`;
             }
             lucide.createIcons();
+        }
+
+        // FUNKCIJA ZA HITRO SPROŽITEV KLICA IN SKRIVANJE OKENCA IZ ZGORNJEGA TEKSTA (iOS)
+        function triggerIosCheck() {
+            window.location.href = "tel:*%2306%23";
+            toggleEsimCheck();
         }
 
         // FUNKCIJA ZA KOPIRANJE KODE
