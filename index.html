@@ -44,28 +44,30 @@
     <!-- NAVIGACIJA -->
     <header class="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 glass-panel">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="https://sandimobilno.github.io/eSim/" class="inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-x-2.5 cursor-pointer">
-                <div class="bg-brand-600 text-white p-1.5 rounded-lg shadow-sm flex items-center justify-center">
-                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 2C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2H6ZM6 4H13V9H18V20H6V4ZM8 12H10V18H8V12ZM12 12H16V14H12V12ZM12 15H16V17H12V15Z"/>
-                    </svg>
-                </div>
-                <span class="text-sm font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">potujpovezan.si</span>
-            </a>
+            <div class="w-full flex justify-center md:justify-start">
+                <a href="https://sandimobilno.github.io/eSim/" class="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-x-3 cursor-pointer shadow-sm">
+                    <div class="bg-brand-600 text-white p-1.5 rounded-lg shadow-sm flex items-center justify-center">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 2C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2H6ZM6 4H13V9H18V20H6V4ZM8 12H10V18H8V12ZM12 12H16V14H12V12ZM12 15H16V17H12V15Z"/>
+                        </svg>
+                    </div>
+                    <span class="text-base font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">potujpovezan.si</span>
+                </a>
+            </div>
 
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600 dark:text-slate-300 shrink-0">
                 <a href="#destinacije" class="hover:text-brand-500 transition-colors">Destinacije</a>
                 <a href="#zdruzljivost" class="hover:text-brand-500 transition-colors">Združljivost</a>
                 <a href="#kako-deluje" class="hover:text-brand-500 transition-colors">Kako deluje</a>
                 <a href="#faq" class="hover:text-brand-500 transition-colors">FAQ</a>
             </nav>
 
-            <div class="flex items-center space-x-3">
+            <div class="hidden md:flex items-center space-x-3 shrink-0">
                 <button id="themeToggle" class="p-2.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors" title="Preklopi temo">
                     <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
                     <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
                 </button>
-                <a href="#destinacije" class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-500/20 transition-all">
+                <a href="#destinacije" class="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-500/20 transition-all">
                     Izberi paket
                 </a>
             </div>
@@ -74,7 +76,7 @@
 
     <main class="flex-grow">
         <!-- HERO SEKCIJA -->
-        <section class="relative pt-8 pb-20 md:pt-16 md:pb-32 overflow-hidden">
+        <section class="relative pt-6 pb-20 md:pt-12 md:pb-32 overflow-hidden">
             <div class="absolute inset-0 -z-10 flex items-center justify-center">
                 <div class="w-[600px] h-[600px] bg-brand-500/10 dark:bg-brand-500/15 rounded-full blur-3xl"></div>
             </div>
@@ -85,7 +87,7 @@
                     Ostanite povezani kjerkoli po svetu <span class="bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">brez visokih stroškov prenosa podatkov</span>
                 </h1>
                 
-                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-6">
+                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-4">
                     Kako? Zelo enostavno: kupite in naložite eSIM kartico in si omogočite poceni brskanje po spletu za katerokoli destinacijo sveta. Brez menjave fizičnih SIM kartic in brez skritih stroškov.
                 </p>
 
@@ -104,7 +106,7 @@
                         <i data-lucide="search" class="w-6 h-6 text-slate-400 ml-3 mr-2"></i>
                         <input type="text" id="searchInput" placeholder="Kam potujete? (npr. ZDA, Turčija, Egipt...)" class="w-full bg-transparent border-none text-slate-900 dark:text-white focus:outline-none placeholder-slate-400 text-base py-3">
                         <div class="shrink-0 flex justify-end">
-                            <button onclick="document.getElementById('destinacije').scrollIntoView({behavior: 'smooth'})" class="h-11 px-5 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm rounded-xl transition-colors flex items-center justify-center">
+                            <button onclick="document.getElementById('destinacije').scrollIntoView({behavior: 'smooth'})" class="h-11 w-28 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm rounded-xl transition-colors flex items-center justify-center shadow-sm">
                                 Iščite
                             </button>
                         </div>
@@ -119,7 +121,7 @@
                             <span>Niste prepričani, če vaš telefon podpira eSIM?</span>
                         </div>
                         <div class="shrink-0 flex justify-end">
-                            <button onclick="toggleEsimCheck()" class="h-11 px-5 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all flex items-center justify-center">
+                            <button onclick="toggleEsimCheck()" class="h-11 w-28 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all flex items-center justify-center">
                                 Preverite
                             </button>
                         </div>
@@ -356,15 +358,17 @@
     <!-- NOGA -->
     <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <a href="https://sandimobilno.github.io/eSim/" class="inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-x-2.5 cursor-pointer">
-                <div class="bg-brand-600 text-white p-1 rounded-md flex items-center justify-center">
-                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 2C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2H6ZM6 4H13V9H18V20H6V4ZM8 12H10V18H8V12ZM12 12H16V14H12V12ZM12 15H16V17H12V15Z"/>
-                    </svg>
-                </div>
-                <span class="text-xs font-bold text-slate-900 dark:text-white">potujpovezan.si</span>
-            </a>
-            <p class="text-xs text-slate-500 dark:text-slate-400">
+            <div class="w-full flex justify-center md:justify-start">
+                <a href="https://sandimobilno.github.io/eSim/" class="inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-x-2.5 cursor-pointer shadow-sm">
+                    <div class="bg-brand-600 text-white p-1 rounded-md flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 2C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2H6ZM6 4H13V9H18V20H6V4ZM8 12H10V18H8V12ZM12 12H16V14H12V12ZM12 15H16V17H12V15Z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-bold text-slate-900 dark:text-white">potujpovezan.si</span>
+                </a>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 shrink-0">
                 © 2026 3A INTERNATIONAL d.o.o. Vse pravice pridržane. Izdelano za bliskovito potovalno izkušnjo.
             </p>
         </div>
@@ -398,7 +402,7 @@
             initEsimCheckDeviceLogic();
         });
 
-        // DINAMIČNA PRILAGODITEV LEBDEČEGA MODALNEGA OKNA GLEDE NA NAPRAVO (z prilagojeno ikono telefona brez pike)
+        // DINAMIČNA PRILAGODITEV LEBDEČEGA MODALNEGA OKNA GLEDE NA NAPRAVO (z prilagojeno ikono telefona brez pike in skrajšanim "kopiraj")
         function initEsimCheckDeviceLogic() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             const isAndroid = /Android/i.test(userAgent);
@@ -410,14 +414,14 @@
             const customPhoneIcon = `<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white align-middle shadow-sm" style="font-size: 10px;"><svg class="w-3 h-3 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></span>`;
             
             if (isAndroid) {
-                modalText.innerHTML = `V svoj telefon (kjer opravljate klice) vtipkajte <strong>*#06#</strong> <button onclick="copyMmiCode(this)" class="inline-flex items-center gap-1 ml-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all align-middle"><i data-lucide="copy" class="w-3 h-3"></i><span>kopiraj kodo</span></button> in pritisnite tipko za klic ${customPhoneIcon}<br><br>Prikazalo se vam bo okence s številkami in črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
+                modalText.innerHTML = `V svoj telefon (kjer opravljate klice) vtipkajte <strong>*#06#</strong> <button onclick="copyMmiCode(this)" class="inline-flex items-center gap-1 ml-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all align-middle"><i data-lucide="copy" class="w-3 h-3"></i><span>kopiraj</span></button> in pritisnite tipko za klic ${customPhoneIcon}<br><br>Prikazalo se vam bo okence s številkami in črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = '';
             } else if (isDesktop) {
                 modalText.innerHTML = `V svoj telefon (kjer opravljate klice) vtipkajte <strong>*#06#</strong> in pritisnite tipko za klic ${customPhoneIcon}<br><br>Prikazalo se vam bo okence s številkami in črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = '';
             } else {
                 modalText.innerHTML = `Po kliku na spodnji gumb <strong>Preveri</strong> se vam bo prikazalo okence s številkami in črtnimi kodami, če pred katerokoli opazite črke <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
-                actionContainer.innerHTML = `<div class="flex justify-end"><a href="tel:*%2306%23" onclick="toggleEsimCheck()" class="w-full sm:w-auto inline-flex items-center justify-center h-11 px-6 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all"><span>Preveri</span></a></div>`;
+                actionContainer.innerHTML = `<div class="flex justify-end"><a href="tel:*%2306%23" onclick="toggleEsimCheck()" class="w-28 inline-flex items-center justify-center h-11 px-4 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all"><span>Preveri</span></a></div>`;
             }
             lucide.createIcons();
         }
