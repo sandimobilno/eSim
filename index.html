@@ -206,6 +206,7 @@
                         <button data-filter="Evropa" class="filter-btn px-4 py-2 rounded-xl text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all">Evropa</button>
                         <button data-filter="Azija" class="filter-btn px-4 py-2 rounded-xl text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all">Azija</button>
                         <button data-filter="Severna Amerika" class="filter-btn px-4 py-2 rounded-xl text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all">S. Amerika</button>
+                        <button data-filter="Izven EU" class="filter-btn px-4 py-2 rounded-xl text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-all">Izven evropske destinacije</button>
                     </div>
                 </div>
 
@@ -392,15 +393,16 @@
 
     <!-- JAVASCRIPT LOGIKA -->
     <script>
-        // PODATKI O DESTINACIJAH
+        // PODATKI O DESTINACIJAH (Posodobljeno z najbolj popularnimi izvenevropskimi destinacijami Slovencev)
         const destinations = [
-            { id: 'usa', country: 'Združene Države Amerike', flag: '🇺🇸', region: 'Severna Amerika', popular: true, basePrice: 4.5, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni', '10 GB / 30 dni', 'Neomejeno'] },
-            { id: 'turkey', country: 'Turčija', flag: '🇹🇷', region: 'Evropa', popular: true, basePrice: 4.0, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni', '10 GB / 30 dni'] },
-            { id: 'egypt', country: 'Egipt', flag: '🇪🇬', region: 'Priljubljeno', popular: true, basePrice: 5.5, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni'] },
-            { id: 'japan', country: 'Japonska', flag: '🇯🇵', region: 'Azija', popular: true, basePrice: 4.8, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni', '10 GB / 30 dni'] },
-            { id: 'thailand', country: 'Tajska', flag: '🇹🇭', region: 'Azija', popular: true, basePrice: 3.9, options: ['1 GB / 7 dni', '5 GB / 10 dni', '10 GB / 15 dni', 'Neomejeno'] },
+            { id: 'turkey', country: 'Turčija', flag: '🇹🇷', region: 'Izven EU', popular: true, basePrice: 4.0, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni', '10 GB / 30 dni'] },
+            { id: 'egypt', country: 'Egipt', flag: '🇪🇬', region: 'Izven EU', popular: true, basePrice: 5.5, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni'] },
+            { id: 'usa', country: 'Združene Države Amerike', flag: '🇺🇸', region: 'Izven EU', popular: true, basePrice: 4.5, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni', '10 GB / 30 dni', 'Neomejeno'] },
+            { id: 'thailand', country: 'Tajska', flag: '🇹🇭', region: 'Izven EU', popular: true, basePrice: 3.9, options: ['1 GB / 7 dni', '5 GB / 10 dni', '10 GB / 15 dni', 'Neomejeno'] },
+            { id: 'uae', country: 'Združeni Arabski Emirati', flag: '🇦🇪', region: 'Izven EU', popular: true, basePrice: 6.0, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni'] },
+            { id: 'zanzibar', country: 'Zanzibar (Tanzanija)', flag: '🇹🇿', region: 'Izven EU', popular: true, basePrice: 7.5, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni'] },
+            { id: 'japan', country: 'Japonska', flag: '🇯🇵', region: 'Azija', popular: false, basePrice: 4.8, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni', '10 GB / 30 dni'] },
             { id: 'uk', country: 'Združeno Kraljestvo', flag: '🇬🇧', region: 'Evropa', popular: false, basePrice: 4.2, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni', '10 GB / 30 dni'] },
-            { id: 'uae', country: 'Združeni Arabski Emirati', flag: '🇦🇪', region: 'Priljubljeno', popular: false, basePrice: 6.0, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni'] },
             { id: 'switzerland', country: 'Švica', flag: '🇨🇭', region: 'Evropa', popular: false, basePrice: 4.5, options: ['1 GB / 7 dni', '3 GB / 15 dni', '5 GB / 30 dni'] },
         ];
 
@@ -510,7 +512,6 @@
 
             items.forEach(dest => {
                 const activeOptIdx = selectedPackagesState[dest.id] || 0;
-                const priceMultiplier = (activeOptIdx + 1);
                 const currentPrice = (dest.basePrice * (1 + (activeOptIdx * 0.75))).toFixed(2);
 
                 const cardHtml = `
