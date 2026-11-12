@@ -44,7 +44,7 @@
     <!-- NAVIGACIJA -->
     <header class="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 glass-panel">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="w-full flex justify-center md:justify-start">
+            <div class="hidden md:flex w-full justify-start">
                 <a href="https://sandimobilno.github.io/eSim/" class="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-x-3 cursor-pointer shadow-sm">
                     <div class="bg-brand-600 text-white p-1.5 rounded-lg shadow-sm flex items-center justify-center">
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -53,6 +53,27 @@
                     </div>
                     <span class="text-base font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">potujpovezan.si</span>
                 </a>
+            </div>
+
+            <!-- MOBILNI MENI GUMB (HAMBURGER) -->
+            <div class="flex md:hidden items-center justify-between w-full">
+                <a href="https://sandimobilno.github.io/eSim/" class="inline-flex items-center justify-center px-3 py-1.5 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-x-2 cursor-pointer shadow-sm">
+                    <div class="bg-brand-600 text-white p-1 rounded-md flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 2C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2H6ZM6 4H13V9H18V20H6V4ZM8 12H10V18H8V12ZM12 12H16V14H12V12ZM12 15H16V17H12V15Z"/>
+                        </svg>
+                    </div>
+                    <span class="text-sm font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-500 bg-clip-text text-transparent">potujpovezan.si</span>
+                </a>
+                <div class="flex items-center space-x-2">
+                    <button id="themeToggleMobile" class="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors" title="Preklopi temo">
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                    </button>
+                    <button id="mobileMenuBtn" class="p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
             </div>
 
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600 dark:text-slate-300 shrink-0">
@@ -68,6 +89,21 @@
                     <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
                 </button>
                 <a href="#destinacije" class="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-500/20 transition-all">
+                    Izberi paket
+                </a>
+            </div>
+        </div>
+
+        <!-- MOBILNI SPUSTNI MENI -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 px-4 py-4 space-y-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md">
+            <nav class="flex flex-col space-y-3 text-sm font-medium text-slate-700 dark:text-slate-200">
+                <a href="#destinacije" class="mobile-nav-link hover:text-brand-500 transition-colors py-1">Destinacije</a>
+                <a href="#zdruzljivost" class="mobile-nav-link hover:text-brand-500 transition-colors py-1">Združljivost</a>
+                <a href="#kako-deluje" class="mobile-nav-link hover:text-brand-500 transition-colors py-1">Kako deluje</a>
+                <a href="#faq" class="mobile-nav-link hover:text-brand-500 transition-colors py-1">FAQ</a>
+            </nav>
+            <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <a href="#destinacije" class="mobile-nav-link w-full text-center inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-500/20 transition-all">
                     Izberi paket
                 </a>
             </div>
@@ -99,17 +135,12 @@
                     </div>
                 </div>
 
-                <!-- ISKALNIK -->
+                <!-- ISKALNIK (Poudarjen okvir, odstranjen gumb Iščite) -->
                 <div class="max-w-xl mx-auto relative group">
-                    <div class="absolute inset-0 bg-brand-500/20 rounded-2xl blur-lg transition duration-300 group-hover:bg-brand-500/30"></div>
-                    <div class="relative flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-3">
-                        <i data-lucide="search" class="w-6 h-6 text-slate-400 ml-3 mr-2"></i>
-                        <input type="text" id="searchInput" placeholder="Kam potujete? (npr. ZDA, Turčija, Egipt...)" class="w-full bg-transparent border-none text-slate-900 dark:text-white focus:outline-none placeholder-slate-400 text-base py-3">
-                        <div class="shrink-0 flex justify-end">
-                            <button onclick="document.getElementById('destinacije').scrollIntoView({behavior: 'smooth'})" class="h-11 w-28 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm rounded-xl transition-colors flex items-center justify-center shadow-sm">
-                                Iščite
-                            </button>
-                        </div>
+                    <div class="absolute inset-0 bg-brand-500/30 rounded-2xl blur-md transition duration-300 group-hover:bg-brand-500/40"></div>
+                    <div class="relative flex items-center bg-white dark:bg-slate-900 border-2 border-brand-500 dark:border-brand-500 rounded-2xl shadow-2xl p-3 ring-4 ring-brand-500/1icon">
+                        <i data-lucide="search" class="w-6 h-6 text-brand-500 ml-3 mr-2 shrink-0"></i>
+                        <input type="text" id="searchInput" placeholder="Kam potujete? (npr. ZDA, Turčija, Egipt...)" class="w-full bg-transparent border-none text-slate-900 dark:text-white focus:outline-none placeholder-slate-400 dark:placeholder-slate-500 text-base py-3">
                     </div>
                 </div>
 
@@ -400,7 +431,25 @@
             setupDeviceChecker();
             setupFAQ();
             initEsimCheckDeviceLogic();
+            setupMobileMenu();
         });
+
+        // MOBILNI MENI LOGIKA
+        function setupMobileMenu() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const menu = document.getElementById('mobileMenu');
+            const links = document.querySelectorAll('.mobile-nav-link');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+        }
 
         // DINAMIČNA PRILAGODITEV LEBDEČEGA MODALNEGA OKNA GLEDE NA NAPRAVO (z prilagojeno ikono telefona brez pike in skrajšanim "kopiraj")
         function initEsimCheckDeviceLogic() {
@@ -631,9 +680,14 @@
         // DARK MODE TOGGLE
         function setupThemeToggle() {
             const themeToggleBtn = document.getElementById('themeToggle');
-            themeToggleBtn.addEventListener('click', () => {
+            const themeToggleMobileBtn = document.getElementById('themeToggleMobile');
+            
+            const toggleDark = () => {
                 document.documentElement.classList.toggle('dark');
-            });
+            };
+
+            themeToggleBtn.addEventListener('click', toggleDark);
+            themeToggleMobileBtn.addEventListener('click', toggleDark);
         }
     </script>
 </body>
