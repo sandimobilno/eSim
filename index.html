@@ -134,15 +134,15 @@
                     Kako? Zelo enostavno: kupite in naložite eSIM kartico in si omogočite poceni brskanje po spletu za katerokoli destinacijo sveta. Brez menjave fizičnih SIM kartic in brez skritih stroškov.
                 </p>
 
-                <!-- GUMB ZA ODPRTJE LEBDEČEGA MODALNEGA OKNA ZA PREVERJANJE ESIM (Na vrhu pod uvodnim besedilom, besedilo pomanjšano za eno stopnjo) -->
+                <!-- GUMB ZA ODPRTJE LEBDEČEGA MODALNEGA OKNA ZA PREVERJANJE ESIM (Zmanjšana višina in prilagojen gumb) -->
                 <div class="mb-6 max-w-xl mx-auto">
-                    <div class="w-full min-h-[3.5rem] py-1.5 px-4 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-2.5 text-left leading-snug">
+                    <div class="w-full py-1 px-3 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2 text-left leading-snug">
                             <i data-lucide="smartphone" class="w-4 h-4 text-brand-500 shrink-0"></i>
                             <span>Niste prepričani ali vaš telefon podpira eSIM?</span>
                         </div>
-                        <div class="shrink-0 flex justify-end mr-1">
-                            <button onclick="toggleEsimCheck()" class="h-11 w-28 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all flex items-center justify-center">
+                        <div class="shrink-0 flex justify-end">
+                            <button onclick="toggleEsimCheck()" class="px-3 py-1 rounded-lg text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all flex items-center justify-center">
                                 Preverite
                             </button>
                         </div>
@@ -237,30 +237,6 @@
                         <div class="w-14 h-14 bg-brand-500/10 rounded-2xl flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold text-xl mx-auto mb-6">3</div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Aktivirajte podatke</h3>
                         <p class="text-slate-600 dark:text-slate-400 text-sm">Ob pristanku vklopite podatkovno gostovanje (Data Roaming) in uživajte v hitrem spletu.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PREVERJALNIK ZDRUŽLJIVOSTI -->
-        <section id="zdruzljivost" class="py-16 bg-slate-100/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800/80">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <i data-lucide="smartphone" class="w-12 h-12 text-brand-500 mx-auto mb-4"></i>
-                <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Ali vaš telefon podpira eSIM?</h2>
-                <p class="text-slate-600 dark:text-slate-400 mb-8">Večina pametnih telefonov izdelanih po letu 2019 podpira tehnologijo eSIM.</p>
-
-                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md text-left">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Izberite znamko vaše naprave:</label>
-                    <select id="deviceSelect" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 mb-4">
-                        <option value="">-- Izberite proizvajalca --</option>
-                        <option value="apple">Apple iPhone</option>
-                        <option value="samsung">Samsung</option>
-                        <option value="google">Google Pixel</option>
-                        <option value="other">Ostali (Xiaomi, Huawei, Honor...)</option>
-                    </select>
-
-                    <div id="deviceResult" class="hidden p-4 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
-                        <!-- Rezultat preverjanja se prikaže tukaj -->
                     </div>
                 </div>
             </div>
@@ -435,7 +411,6 @@
             renderCards(destinations);
             setupThemeToggle();
             setupSearchAndFilters();
-            setupDeviceChecker();
             setupFAQ();
             initEsimCheckDeviceLogic();
             setupMobileMenu();
@@ -652,31 +627,6 @@
                 btn.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i> <span>Varno plačaj zdaj</span>`;
                 lucide.createIcons();
             }, 1500);
-        }
-
-        // DEVICE CHECKER LOGIC
-        function setupDeviceChecker() {
-            const select = document.getElementById('deviceSelect');
-            const result = document.getElementById('deviceResult');
-
-            select.addEventListener('change', (e) => {
-                const val = e.target.value;
-                if (!val) {
-                    result.classList.add('hidden');
-                    return;
-                }
-
-                result.classList.remove('hidden');
-                if (val === 'apple') {
-                    result.innerHTML = `<div class="text-emerald-600 dark:text-emerald-400 font-semibold mb-1">✓ Podprte naprave Apple:</div><p class="text-slate-600 dark:text-slate-400">iPhone XS, XR, 11, 12, 13, 14, 15, 16 in noviji ter iPhone SE (2. in 3. gen).</p>`;
-                } else if (val === 'samsung') {
-                    result.innerHTML = `<div class="text-emerald-600 dark:text-emerald-400 font-semibold mb-1">✓ Podprte naprave Samsung:</div><p class="text-slate-600 dark:text-slate-400">Galaxy S20, S21, S22, S23, S24 serija, Z Flip, Z Fold serija ter A54 5G / A55 5G.</p>`;
-                } else if (val === 'google') {
-                    result.innerHTML = `<div class="text-emerald-600 dark:text-emerald-400 font-semibold mb-1">✓ Podprte naprave Google:</div><p class="text-slate-600 dark:text-slate-400">Google Pixel 3 in vse novejše generacije (Pixel 4, 5, 6, 7, 8, 9).</p>`;
-                } else {
-                    result.innerHTML = `<div class="text-amber-600 dark:text-amber-400 font-semibold mb-1">⚠ Preverite v nastavitvah:</div><p class="text-slate-600 dark:text-slate-400">Odprite Nastavitve -> Omrežje in preverite, ali imate možnost "Dodaj eSIM". Večina vodilnih modelov od leta 2021 dalje podpira eSIM.</p>`;
-                }
-            });
         }
 
         // FAQ ACCORDION LOGIC
