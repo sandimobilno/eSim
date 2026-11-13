@@ -565,7 +565,7 @@
             filterData(searchTerm, activeFilter);
         }
 
-        // FILTER AND SEARCH LOGIC
+        // FILTER AND SEARCH LOGIC (POPRAVLJENO: FIKSIRANJE NA VRH + SAMODEJNI POMIK DO REZULTATOV)
         function setupSearchAndFilters() {
             const searchInput = document.getElementById('searchInput');
             const clearBtn = document.getElementById('clearSearchBtn');
@@ -577,9 +577,18 @@
                 
                 if (val.trim().length > 0) {
                     clearBtn.classList.remove('hidden');
-                    searchWrapper.style.position = 'sticky';
-                    searchWrapper.style.top = '60px'; // Tik pod vrhnjo navigacijsko pasico
-                    searchWrapper.style.zIndex = '30';
+                    // Popravljeno: position fixed za takojšnji dvig na sam vrh zaslona
+                    searchWrapper.style.position = 'fixed';
+                    searchWrapper.style.top = '56px';
+                    searchWrapper.style.left = '1rem';
+                    searchWrapper.style.right = '1rem';
+                    searchWrapper.style.maxWidth = '48rem';
+                    searchWrapper.style.margin = '0 auto';
+                    searchWrapper.style.zIndex = '50';
+                    searchWrapper.style.padding = '0.5rem';
+                    searchWrapper.style.background = 'rgba(15, 23, 42, 0.85)';
+                    searchWrapper.style.backdropFilter = 'blur(12px)';
+                    searchWrapper.style.borderRadius = '1rem';
                     
                     filterBtns.forEach(b => {
                         b.classList.remove('active', 'bg-brand-600', 'text-white');
@@ -592,13 +601,36 @@
                     }
                 } else {
                     clearBtn.classList.add('hidden');
+                    // Ponastavitev v prvotno stanje
                     searchWrapper.style.position = '';
                     searchWrapper.style.top = '';
+                    searchWrapper.style.left = '';
+                    searchWrapper.style.right = '';
+                    searchWrapper.style.maxWidth = '';
+                    searchWrapper.style.margin = '';
                     searchWrapper.style.zIndex = '';
+                    searchWrapper.style.padding = '';
+                    searchWrapper.style.background = '';
+                    searchWrapper.style.backdropFilter = '';
+                    searchWrapper.style.borderRadius = '';
                 }
 
                 const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
                 filterData(val, activeFilter);
+
+                // Samodejni pomik do rezultatov, da so takoj vidni pod iskalnikom
+                if (val.trim().length > 0) {
+                    const destinacijeSection = document.getElementById('destinacije');
+                    if (destinacijeSection) {
+                        const headerOffset = 130;
+                        const elementPosition = destinacijeSection.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
             });
 
             filterBtns.forEach(btn => {
@@ -625,7 +657,15 @@
             clearBtn.classList.add('hidden');
             searchWrapper.style.position = '';
             searchWrapper.style.top = '';
+            searchWrapper.style.left = '';
+            searchWrapper.style.right = '';
+            searchWrapper.style.maxWidth = '';
+            searchWrapper.style.margin = '';
             searchWrapper.style.zIndex = '';
+            searchWrapper.style.padding = '';
+            searchWrapper.style.background = '';
+            searchWrapper.style.backdropFilter = '';
+            searchWrapper.style.borderRadius = '';
 
             const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
             filterData('', activeFilter);
