@@ -574,18 +574,6 @@
 
             function activateSearchMode() {
                 clearBtn.classList.remove('hidden');
-                // Use fixed positioning with responsive width/margins to ensure it works properly on both mobile and desktop when typing/focused
-                searchWrapper.style.position = 'fixed';
-                searchWrapper.style.top = '56px';
-                searchWrapper.style.left = '1rem';
-                searchWrapper.style.right = '1rem';
-                searchWrapper.style.maxWidth = '48rem';
-                searchWrapper.style.margin = '0 auto';
-                searchWrapper.style.zIndex = '50';
-                searchWrapper.style.padding = '0.5rem';
-                searchWrapper.style.background = 'rgba(15, 23, 42, 0.95)';
-                searchWrapper.style.backdropFilter = 'blur(12px)';
-                searchWrapper.style.borderRadius = '1rem';
                 
                 filterBtns.forEach(b => {
                     b.classList.remove('active', 'bg-brand-600', 'text-white');
@@ -612,34 +600,12 @@
                     activateSearchMode();
                 } else {
                     clearBtn.classList.add('hidden');
-                    searchWrapper.style.position = '';
-                    searchWrapper.style.top = '';
-                    searchWrapper.style.left = '';
-                    searchWrapper.style.right = '';
-                    searchWrapper.style.maxWidth = '';
-                    searchWrapper.style.margin = '';
-                    searchWrapper.style.zIndex = '';
-                    searchWrapper.style.padding = '';
-                    searchWrapper.style.background = '';
-                    searchWrapper.style.backdropFilter = '';
-                    searchWrapper.style.borderRadius = '';
                 }
 
                 const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
                 filterData(val, activeFilter);
 
-                if (val.trim().length > 0) {
-                    const destinacijeSection = document.getElementById('destinacije');
-                    if (destinacijeSection) {
-                        const headerOffset = 130;
-                        const elementPosition = destinacijeSection.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
-                }
+
             });
 
             filterBtns.forEach(btn => {
@@ -660,21 +626,9 @@
         function clearSearchInput() {
             const searchInput = document.getElementById('searchInput');
             const clearBtn = document.getElementById('clearSearchBtn');
-            const searchWrapper = document.getElementById('searchContainerWrapper');
             
             searchInput.value = '';
             clearBtn.classList.add('hidden');
-            searchWrapper.style.position = '';
-            searchWrapper.style.top = '';
-            searchWrapper.style.left = '';
-            searchWrapper.style.right = '';
-            searchWrapper.style.maxWidth = '';
-            searchWrapper.style.margin = '';
-            searchWrapper.style.zIndex = '';
-            searchWrapper.style.padding = '';
-            searchWrapper.style.background = '';
-            searchWrapper.style.backdropFilter = '';
-            searchWrapper.style.borderRadius = '';
 
             const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
             filterData('', activeFilter);
