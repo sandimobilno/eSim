@@ -305,7 +305,7 @@
             <div id="esimModalText" class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 <!-- Dinamično vstavljeno besedilo glede na napravo -->
             </div>
-            <div id="esimModalAction">
+            <div id="modalActionContainer">
                 <!-- Dinamično vstavljen gumb/akcija glede na napravo -->
             </div>
         </div>
@@ -430,10 +430,8 @@
                 const currentScrollY = window.scrollY;
                 
                 if (currentScrollY > lastScrollY && currentScrollY > 60) {
-                    // Drsenje navzdol - skrij pasico
                     header.classList.add('header-hidden');
                 } else {
-                    // Drsenje navzgor - prikaži pasico
                     header.classList.remove('header-hidden');
                 }
                 lastScrollY = currentScrollY;
@@ -457,17 +455,19 @@
             });
         }
 
-        // DINAMIČNA PRILAGODITEV LEBDEČEGA MODALNEGA OKNA GLEDE NA NAPRAVO (z prilagojeno ikono telefona brez pike in skrajšanim "kopiraj")
+        // DINAMIČNA PRILAGODITEV LEBDEČEGA MODALNEGA OKNA GLEDE NA NAPRAVO (z barvo besede "Preveri", ki se ujema z gumbom)
         function initEsimCheckDeviceLogic() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             const isAndroid = /Android/i.test(userAgent);
             const isDesktop = /Windows NT|Macintosh|MacIntel|Linux x86_64|Cros/i.test(userAgent) && !/Mobile|Android|iPhone|iPad/i.test(userAgent);
             const modalText = document.getElementById('esimModalText');
-            const actionContainer = document.getElementById('esimModalAction');
+            const actionContainer = document.getElementById('modalActionContainer');
 
-            // Prilagojena ikona telefona (zelen krog z belim telefonom) brez pike na koncu
             const customPhoneIcon = `<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white align-middle shadow-sm" style="font-size: 10px;"><svg class="w-3 h-3 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></span>`;
             
+            // Barva besede "Preveri" v besedilu naj se ujema z barvo gumba (text-brand-500 ali text-brand-600)
+            const preveriStyled = `<strong class="text-brand-500 font-bold">Preveri</strong>`;
+
             if (isAndroid) {
                 modalText.innerHTML = `V svoj telefon (kjer opravljate klice) vtipkajte <strong>*#06#</strong> <button onclick="copyMmiCode(this)" class="inline-flex items-center gap-1 ml-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all align-middle"><i data-lucide="copy" class="w-3 h-3"></i><span>kopiraj</span></button> in pritisnite tipko za klic ${customPhoneIcon}<br><br>Prikazalo se vam bo okence s številkami in črtnimi kodami, če pred katerokoli opazite besedo <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = '';
@@ -475,7 +475,7 @@
                 modalText.innerHTML = `V svoj telefon (kjer opravljate klice) vtipkajte <strong>*#06#</strong> in pritisnite tipko za klic ${customPhoneIcon}<br><br>Prikazalo se vam bo okence s številkami in črtnimi kodami, če pred katerokoli opazite besedo <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = '';
             } else {
-                modalText.innerHTML = `Po kliku na spodnji gumb <strong>Preveri</strong> se vam bo prikazalo okence s številkami in črtnimi kodami, če pred katerokoli opazite besedo <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
+                modalText.innerHTML = `Po kliku na spodnji gumb ${preveriStyled} se vam bo prikazalo okence s številkami in črtnimi kodami, če pred katerokoli opazite besedo <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = `<div class="flex justify-end"><a href="tel:*%2306%23" onclick="toggleEsimCheck()" class="w-28 inline-flex items-center justify-center h-11 px-4 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all"><span>Preveri</span></a></div>`;
             }
             lucide.createIcons();
@@ -565,43 +565,53 @@
             filterData(searchTerm, activeFilter);
         }
 
-        // FILTER AND SEARCH LOGIC (POPRAVLJENO: FIKSIRANJE NA VRH + SAMODEJNI POMIK DO REZULTATOV)
+        // FILTER AND SEARCH LOGIC (FIXED MOBILE & DESKTOP POSITIONING ON FOCUS / INPUT)
         function setupSearchAndFilters() {
             const searchInput = document.getElementById('searchInput');
             const clearBtn = document.getElementById('clearSearchBtn');
             const searchWrapper = document.getElementById('searchContainerWrapper');
             const filterBtns = document.querySelectorAll('.filter-btn');
 
+            function activateSearchMode() {
+                clearBtn.classList.remove('hidden');
+                // Use fixed positioning with responsive width/margins to ensure it works properly on both mobile and desktop when typing/focused
+                searchWrapper.style.position = 'fixed';
+                searchWrapper.style.top = '56px';
+                searchWrapper.style.left = '1rem';
+                searchWrapper.style.right = '1rem';
+                searchWrapper.style.maxWidth = '48rem';
+                searchWrapper.style.margin = '0 auto';
+                searchWrapper.style.zIndex = '50';
+                searchWrapper.style.padding = '0.5rem';
+                searchWrapper.style.background = 'rgba(15, 23, 42, 0.95)';
+                searchWrapper.style.backdropFilter = 'blur(12px)';
+                searchWrapper.style.borderRadius = '1rem';
+                
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-brand-600', 'text-white');
+                    b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+                });
+                const allBtn = document.querySelector('[data-filter="vse"]');
+                if (allBtn) {
+                    allBtn.classList.add('active', 'bg-brand-600', 'text-white');
+                    allBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+                }
+            }
+
+            // Listen to both focus and input so mobile triggers it immediately when virtual keyboard opens and typing starts
+            searchInput.addEventListener('focus', () => {
+                if (searchInput.value.trim().length > 0) {
+                    activateSearchMode();
+                }
+            });
+
             searchInput.addEventListener('input', (e) => {
                 const val = e.target.value;
                 
                 if (val.trim().length > 0) {
-                    clearBtn.classList.remove('hidden');
-                    // Popravljeno: position fixed za takojšnji dvig na sam vrh zaslona
-                    searchWrapper.style.position = 'fixed';
-                    searchWrapper.style.top = '56px';
-                    searchWrapper.style.left = '1rem';
-                    searchWrapper.style.right = '1rem';
-                    searchWrapper.style.maxWidth = '48rem';
-                    searchWrapper.style.margin = '0 auto';
-                    searchWrapper.style.zIndex = '50';
-                    searchWrapper.style.padding = '0.5rem';
-                    searchWrapper.style.background = 'rgba(15, 23, 42, 0.85)';
-                    searchWrapper.style.backdropFilter = 'blur(12px)';
-                    searchWrapper.style.borderRadius = '1rem';
-                    
-                    filterBtns.forEach(b => {
-                        b.classList.remove('active', 'bg-brand-600', 'text-white');
-                        b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
-                    });
-                    const allBtn = document.querySelector('[data-filter="vse"]');
-                    if (allBtn) {
-                        allBtn.classList.add('active', 'bg-brand-600', 'text-white');
-                        allBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
-                    }
+                    activateSearchMode();
                 } else {
                     clearBtn.classList.add('hidden');
-                    // Ponastavitev v prvotno stanje
                     searchWrapper.style.position = '';
                     searchWrapper.style.top = '';
                     searchWrapper.style.left = '';
@@ -618,7 +628,6 @@
                 const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
                 filterData(val, activeFilter);
 
-                // Samodejni pomik do rezultatov, da so takoj vidni pod iskalnikom
                 if (val.trim().length > 0) {
                     const destinacijeSection = document.getElementById('destinacije');
                     if (destinacijeSection) {
