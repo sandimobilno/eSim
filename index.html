@@ -44,6 +44,10 @@
         .header-hidden {
             transform: translateY(-100%);
         }
+        /* Dodan prehod za animacijo iskalnika */
+        #searchContainerWrapper {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white min-h-screen flex flex-col justify-between">
@@ -152,11 +156,14 @@
                 </div>
 
                 <!-- ISKALNIK (V sredini, poudarjen okvir, odstranjen gumb Iščite) -->
-                <div class="max-w-xl mx-auto relative group">
+                <div id="searchContainerWrapper" class="max-w-xl mx-auto relative group">
                     <div class="absolute inset-0 bg-brand-500/30 rounded-2xl blur-md transition duration-300 group-hover:bg-brand-500/40"></div>
                     <div class="relative flex items-center bg-white dark:bg-slate-900 border-2 border-brand-500 dark:border-brand-500 rounded-2xl shadow-2xl p-3 ring-4 ring-brand-500/10">
                         <i data-lucide="search" class="w-6 h-6 text-brand-500 ml-3 mr-2 shrink-0"></i>
                         <input type="text" id="searchInput" placeholder="Kam potujete? (npr. Turčija, Tajska, ZDA, Azija...)" class="w-full bg-transparent border-none text-slate-900 dark:text-white focus:outline-none placeholder-slate-400 dark:placeholder-slate-500 text-base py-3">
+                        <button id="clearSearchBtn" onclick="clearSearchInput()" class="hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors mr-1 shrink-0" title="Počisti iskanje">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -561,11 +568,19 @@
         // FILTER AND SEARCH LOGIC
         function setupSearchAndFilters() {
             const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            const searchWrapper = document.getElementById('searchContainerWrapper');
             const filterBtns = document.querySelectorAll('.filter-btn');
 
             searchInput.addEventListener('input', (e) => {
                 const val = e.target.value;
+                
                 if (val.trim().length > 0) {
+                    clearBtn.classList.remove('hidden');
+                    searchWrapper.style.position = 'sticky';
+                    searchWrapper.style.top = '60px'; // Tik pod vrhnjo navigacijsko pasico
+                    searchWrapper.style.zIndex = '30';
+                    
                     filterBtns.forEach(b => {
                         b.classList.remove('active', 'bg-brand-600', 'text-white');
                         b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
@@ -575,7 +590,13 @@
                         allBtn.classList.add('active', 'bg-brand-600', 'text-white');
                         allBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
                     }
+                } else {
+                    clearBtn.classList.add('hidden');
+                    searchWrapper.style.position = '';
+                    searchWrapper.style.top = '';
+                    searchWrapper.style.zIndex = '';
                 }
+
                 const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
                 filterData(val, activeFilter);
             });
@@ -592,6 +613,23 @@
                     filterData(searchInput.value, btn.dataset.filter);
                 });
             });
+        }
+
+        // FUNKCIJA ZA POČISTITEV ISKANJA
+        function clearSearchInput() {
+            const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            const searchWrapper = document.getElementById('searchContainerWrapper');
+            
+            searchInput.value = '';
+            clearBtn.classList.add('hidden');
+            searchWrapper.style.position = '';
+            searchWrapper.style.top = '';
+            searchWrapper.style.zIndex = '';
+
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            filterData('', activeFilter);
+            searchInput.focus();
         }
 
         function normalizeText(str) {
