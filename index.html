@@ -44,10 +44,6 @@
         .header-hidden {
             transform: translateY(-100%);
         }
-        /* Dodan prehod za animacijo iskalnika */
-        #searchContainerWrapper {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white min-h-screen flex flex-col justify-between">
@@ -156,14 +152,11 @@
                 </div>
 
                 <!-- ISKALNIK (V sredini, poudarjen okvir, odstranjen gumb Iščite) -->
-                <div id="searchContainerWrapper" class="max-w-xl mx-auto relative group">
+                <div class="max-w-xl mx-auto relative group">
                     <div class="absolute inset-0 bg-brand-500/30 rounded-2xl blur-md transition duration-300 group-hover:bg-brand-500/40"></div>
                     <div class="relative flex items-center bg-white dark:bg-slate-900 border-2 border-brand-500 dark:border-brand-500 rounded-2xl shadow-2xl p-3 ring-4 ring-brand-500/10">
                         <i data-lucide="search" class="w-6 h-6 text-brand-500 ml-3 mr-2 shrink-0"></i>
                         <input type="text" id="searchInput" placeholder="Kam potujete? (npr. Turčija, Tajska, ZDA, Azija...)" class="w-full bg-transparent border-none text-slate-900 dark:text-white focus:outline-none placeholder-slate-400 dark:placeholder-slate-500 text-base py-3">
-                        <button id="clearSearchBtn" onclick="clearSearchInput()" class="hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors mr-1 shrink-0" title="Počisti iskanje">
-                            <i data-lucide="x" class="w-5 h-5"></i>
-                        </button>
                     </div>
                 </div>
 
@@ -305,7 +298,7 @@
             <div id="esimModalText" class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 <!-- Dinamično vstavljeno besedilo glede na napravo -->
             </div>
-            <div id="modalActionContainer">
+            <div id="esimModalAction">
                 <!-- Dinamično vstavljen gumb/akcija glede na napravo -->
             </div>
         </div>
@@ -430,8 +423,10 @@
                 const currentScrollY = window.scrollY;
                 
                 if (currentScrollY > lastScrollY && currentScrollY > 60) {
+                    // Drsenje navzdol - skrij pasico
                     header.classList.add('header-hidden');
                 } else {
+                    // Drsenje navzgor - prikaži pasico
                     header.classList.remove('header-hidden');
                 }
                 lastScrollY = currentScrollY;
@@ -455,19 +450,17 @@
             });
         }
 
-        // DINAMIČNA PRILAGODITEV LEBDEČEGA MODALNEGA OKNA GLEDE NA NAPRAVO (z barvo besede "Preveri", ki se ujema z gumbom)
+        // DINAMIČNA PRILAGODITEV LEBDEČEGA MODALNEGA OKNA GLEDE NA NAPRAVO (z prilagojeno ikono telefona brez pike in skrajšanim "kopiraj")
         function initEsimCheckDeviceLogic() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             const isAndroid = /Android/i.test(userAgent);
             const isDesktop = /Windows NT|Macintosh|MacIntel|Linux x86_64|Cros/i.test(userAgent) && !/Mobile|Android|iPhone|iPad/i.test(userAgent);
             const modalText = document.getElementById('esimModalText');
-            const actionContainer = document.getElementById('modalActionContainer');
+            const actionContainer = document.getElementById('esimModalAction');
 
+            // Prilagojena ikona telefona (zelen krog z belim telefonom) brez pike na koncu
             const customPhoneIcon = `<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white align-middle shadow-sm" style="font-size: 10px;"><svg class="w-3 h-3 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></span>`;
             
-            // Barva besede "Preveri" v besedilu naj se ujema z barvo gumba (text-brand-500 ali text-brand-600)
-            const preveriStyled = `<span class="inline-inline-flex items-center px-1.5 py-0.5 rounded bg-brand-600 text-white font-semibold text-xs align-baseline">Preveri</span>`;
-
             if (isAndroid) {
                 modalText.innerHTML = `V svoj telefon (kjer opravljate klice) vtipkajte <strong>*#06#</strong> <button onclick="copyMmiCode(this)" class="inline-flex items-center gap-1 ml-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all align-middle"><i data-lucide="copy" class="w-3 h-3"></i><span>kopiraj</span></button> in pritisnite tipko za klic ${customPhoneIcon}<br><br>Prikazalo se vam bo okence s številkami in črtnimi kodami, če pred katerokoli opazite besedo <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = '';
@@ -475,6 +468,7 @@
                 modalText.innerHTML = `V svoj telefon (kjer opravljate klice) vtipkajte <strong>*#06#</strong> in pritisnite tipko za klic ${customPhoneIcon}<br><br>Prikazalo se vam bo okence s številkami in črtnimi kodami, če pred katerokoli opazite besedo <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = '';
             } else {
+                const preveriStyled = `<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-brand-600 text-white font-semibold text-xs align-baseline">Preveri</span>`;
                 modalText.innerHTML = `Po kliku na spodnji gumb ${preveriStyled} se vam bo prikazalo okence s številkami in črtnimi kodami, če pred katerokoli opazite besedo <strong>EID</strong>, to pomeni, da vaš telefon zagotovo podpira eSIM.`;
                 actionContainer.innerHTML = `<div class="flex justify-end"><a href="tel:*%2306%23" onclick="toggleEsimCheck()" class="w-28 inline-flex items-center justify-center h-11 px-4 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all"><span>Preveri</span></a></div>`;
             }
@@ -565,47 +559,26 @@
             filterData(searchTerm, activeFilter);
         }
 
-        // FILTER AND SEARCH LOGIC (FIXED MOBILE & DESKTOP POSITIONING ON FOCUS / INPUT)
+        // FILTER AND SEARCH LOGIC
         function setupSearchAndFilters() {
             const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearSearchBtn');
-            const searchWrapper = document.getElementById('searchContainerWrapper');
             const filterBtns = document.querySelectorAll('.filter-btn');
-
-            function activateSearchMode() {
-                clearBtn.classList.remove('hidden');
-                
-                filterBtns.forEach(b => {
-                    b.classList.remove('active', 'bg-brand-600', 'text-white');
-                    b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
-                });
-                const allBtn = document.querySelector('[data-filter="vse"]');
-                if (allBtn) {
-                    allBtn.classList.add('active', 'bg-brand-600', 'text-white');
-                    allBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
-                }
-            }
-
-            // Listen to both focus and input so mobile triggers it immediately when virtual keyboard opens and typing starts
-            searchInput.addEventListener('focus', () => {
-                if (searchInput.value.trim().length > 0) {
-                    activateSearchMode();
-                }
-            });
 
             searchInput.addEventListener('input', (e) => {
                 const val = e.target.value;
-                
                 if (val.trim().length > 0) {
-                    activateSearchMode();
-                } else {
-                    clearBtn.classList.add('hidden');
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-brand-600', 'text-white');
+                        b.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+                    });
+                    const allBtn = document.querySelector('[data-filter="vse"]');
+                    if (allBtn) {
+                        allBtn.classList.add('active', 'bg-brand-600', 'text-white');
+                        allBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+                    }
                 }
-
                 const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
                 filterData(val, activeFilter);
-
-
             });
 
             filterBtns.forEach(btn => {
@@ -620,19 +593,6 @@
                     filterData(searchInput.value, btn.dataset.filter);
                 });
             });
-        }
-
-        // FUNKCIJA ZA POČISTITEV ISKANJA
-        function clearSearchInput() {
-            const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearSearchBtn');
-            
-            searchInput.value = '';
-            clearBtn.classList.add('hidden');
-
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-            filterData('', activeFilter);
-            searchInput.focus();
         }
 
         function normalizeText(str) {
